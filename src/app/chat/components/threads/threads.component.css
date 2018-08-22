@@ -1,0 +1,11 @@
+.message-box {
+  border: blue 1px solid;
+}
+
+.thread-tabs li {
+  display: table-row;
+}
+
+.user-list {
+  float: right;
+}
