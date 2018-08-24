@@ -6,9 +6,7 @@ let userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true},
   location: String,
-  age: Number,
-  created_at: Date,
-  updated_at: Date
+  age: Number
 });
 
 userSchema.pre('save', function(next) {
@@ -20,6 +18,6 @@ userSchema.pre('save', function(next) {
     this.created_at = currentDate;
 })
 
-var User = mongoose.model('User', userSchema);
+var User = mongoose.model('users', userSchema);
 
 module.exports = User;

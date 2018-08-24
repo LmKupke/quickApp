@@ -1,9 +1,8 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div>
-  <nav>
-    <a routerLink="/sign-in">Sign In</a>
-    <a routerLink="/sign-up">Sign Up</a>
-    <a routerLink="/chat">Chat</a>
-  </nav>
-  <router-outlet></router-outlet>
-</div>
+<mat-toolbar>
+    <span routerLink="">Angular Chat App</span>
+    <button mat-button routerLink="/sign-up">Sign Up</button>
+    <button mat-button routerLink="/sign-up">Sign In</button>
+
+</mat-toolbar>
+
+<router-outlet></router-outlet>

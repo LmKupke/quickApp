@@ -3,7 +3,10 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-// mongoose.connect('mongodb://localhost/myappdatabase')
+require('dotenv').config()
+const DB_USER = process.env.DB_USER;
+const DB_PASSWORD = process.env.DB_PASS;
+mongoose.connect(`mongodb://${DB_USER}:${DB_PASSWORD}@ds018268.mlab.com:18268/chat-app`)
 
 const api = require('./server/routes/api');
 
