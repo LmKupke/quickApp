@@ -11,6 +11,7 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
+import { AppState } from './store/app.state';
 
 const appRoutes: Routes = [
   {path: 'sign-up', loadChildren: './sign-up/sign-up.module#SignUpModule'}
@@ -27,7 +28,7 @@ const appRoutes: Routes = [
     SignUpModule,
     RouterModule.forRoot(appRoutes, { enableTracing: true }),
     BrowserAnimationsModule,
-    NgxsModule.forRoot([]),
+    NgxsModule.forRoot([AppState]),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsFormPluginModule.forRoot(),
     NgxsRouterPluginModule.forRoot(),

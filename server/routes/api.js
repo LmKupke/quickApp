@@ -19,12 +19,9 @@ router.get('/users', (req,res) => {
 
 router.post('/user', (req,res) => {
   let user = req.body;
-  let newUser = new User({...req.body});
-  newUser.save(function(err) {
-    if(err) {
-      return err;
-    }
-  })
+  let result =  User.create(req.body);
+  res.send(result);
+
 });
 
 module.exports = router;

@@ -13,6 +13,10 @@
       <mat-error *ngIf="isFieldInvalid('username')">
         Please fill in a username
       </mat-error>
+
+      <mat-error *ngIf="uniqueUsername.length > 0">
+        {{uniqueUsername}}
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field>

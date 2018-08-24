@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { SignUpService } from '../sign-up.service';
+import { User } from '../../models/user';
+import { SignUpSuccessful } from '../store/sign-up.action';
+import { Store } from '@ngxs/store';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -10,9 +13,10 @@ import { SignUpService } from '../sign-up.service';
 export class SignUpFormComponent implements OnInit {
   userForm: FormGroup;
   user: User;
+  uniqueUsername: string = '';
   private formSubmitAttempt: boolean;
 
-  constructor(private formBuilder: FormBuilder, private signUpService: SignUpService) {
+  constructor(private formBuilder: FormBuilder, private signUpService: SignUpService, private store: Store) {
     this.userForm = this.formBuilder.group({
       name: new FormControl('', [ Validators.required]),
       username: new FormControl('', [ Validators.required]),
@@ -37,17 +41,11 @@ export class SignUpFormComponent implements OnInit {
       ...this.userForm.value
     };
 
-    this.signUpService.signUpUser(this.user).subscribe((response) => {
-      console.log(response);
+    this.signUpService.signUpUser(this.user).subscribe(data => {
+      console.log(data);
     });
+
   }
 
 }
 
-export interface User {
-  name: String;
-  username: String;
-  password: String;
-  location: String;
-  age: number;
-}
