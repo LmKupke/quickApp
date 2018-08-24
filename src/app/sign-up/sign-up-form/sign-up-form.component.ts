@@ -10,17 +10,26 @@ import { SignUpService } from '../sign-up.service';
 export class SignUpFormComponent implements OnInit {
   userForm: FormGroup;
   user: User;
+  private formSubmitAttempt: boolean;
+
   constructor(private formBuilder: FormBuilder, private signUpService: SignUpService) {
     this.userForm = this.formBuilder.group({
       name: new FormControl('', [ Validators.required]),
       username: new FormControl('', [ Validators.required]),
       password: new FormControl('', [ Validators.required,  Validators.minLength(4)]),
       location: new FormControl('', [ Validators.required]),
-      age: new FormControl('', [ Validators.required])
+      age: new FormControl('', [ Validators.required ])
     });
   }
 
   ngOnInit() {
+  }
+
+  isFieldInvalid(field: string) {
+    return (
+      (!this.userForm.get(field).valid && this.userForm.get(field).touched) ||
+      (this.userForm.get(field).untouched && this.formSubmitAttempt)
+    );
   }
 
   onSubmit() {
@@ -28,7 +37,9 @@ export class SignUpFormComponent implements OnInit {
       ...this.userForm.value
     };
 
-    this.signUpService.signUpUser(this.user).subscribe();
+    this.signUpService.signUpUser(this.user).subscribe((response) => {
+      console.log(response);
+    });
   }
 
 }
