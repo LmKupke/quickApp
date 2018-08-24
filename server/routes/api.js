@@ -17,4 +17,14 @@ router.get('/users', (req,res) => {
   });
 });
 
+router.post('/user', (req,res) => {
+  let user = req.body;
+  let newUser = new User({...req.body});
+  newUser.save(function(err) {
+    if(err) {
+      console.log(err);
+    }
+  })
+});
+
 module.exports = router;

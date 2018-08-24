@@ -1,16 +1,26 @@
 
 <div class="example-container">
+   <form [formGroup]="userForm" novalidate ngxsForm="signUp.signUpForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
-      <input matInput placeholder="Input">
+      <input matInput placeholder="Name" formControlName="name">
     </mat-form-field>
 
     <mat-form-field>
-      <textarea matInput placeholder="Textarea"></textarea>
+      <input matInput placeholder="Username" formControlName="username">
     </mat-form-field>
 
     <mat-form-field>
-      <mat-select placeholder="Select">
-        <mat-option value="option">Option</mat-option>
-      </mat-select>
+      <input matInput placeholder="Password" formControlName="password">
     </mat-form-field>
-  </div>
+
+    <mat-form-field>
+      <input matInput placeholder="Location" formControlName="location">
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Age" formControlName="age">
+    </mat-form-field>
+
+    <button mat-button (click)="onSubmit()" [disabled]="userForm.invalid">Submit</button>
+    </form>
+</div>

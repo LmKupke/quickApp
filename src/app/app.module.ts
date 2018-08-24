@@ -7,6 +7,11 @@ import { AppComponent } from './app.component';
 import { MaterialModule } from './material/material.module';
 import { SignUpModule } from './sign-up/sign-up.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxsModule } from '@ngxs/store';
+import { NgxsFormPluginModule } from '@ngxs/form-plugin';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
+
 const appRoutes: Routes = [
   {path: 'sign-up', loadChildren: './sign-up/sign-up.module#SignUpModule'}
 ];
@@ -21,7 +26,11 @@ const appRoutes: Routes = [
     MaterialModule,
     SignUpModule,
     RouterModule.forRoot(appRoutes, { enableTracing: true }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxsModule.forRoot([]),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsFormPluginModule.forRoot(),
+    NgxsRouterPluginModule.forRoot(),
 
   ],
   providers: [],

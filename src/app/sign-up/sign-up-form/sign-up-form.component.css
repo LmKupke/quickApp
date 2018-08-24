@@ -6,6 +6,7 @@
   width: 50%;
 }
 
-.example-container > * {
+.example-container form > * {
   width: 100%;
+
 }
