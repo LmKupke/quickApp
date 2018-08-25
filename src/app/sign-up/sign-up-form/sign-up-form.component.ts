@@ -4,6 +4,8 @@ import { SignUpService } from '../sign-up.service';
 import { User } from '../../models/user';
 import { SignUpSuccessful } from '../store/sign-up.action';
 import { Store } from '@ngxs/store';
+import { AddUserGqlService } from '../add-user-gql.service';
+import { gql, Apollo } from 'apollo-angular-boost';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -16,7 +18,7 @@ export class SignUpFormComponent implements OnInit {
   uniqueUsername: string = '';
   private formSubmitAttempt: boolean;
 
-  constructor(private formBuilder: FormBuilder, private signUpService: SignUpService, private store: Store) {
+  constructor(private formBuilder: FormBuilder, private addUserGQL: AddUserGqlService, private store: Store) {
     this.userForm = this.formBuilder.group({
       name: new FormControl('', [ Validators.required]),
       username: new FormControl('', [ Validators.required]),
@@ -40,9 +42,13 @@ export class SignUpFormComponent implements OnInit {
     this.user = {
       ...this.userForm.value
     };
-
-    this.signUpService.signUpUser(this.user).subscribe(data => {
-      console.log(data);
+    this.addUserGQL.mutate({
+        ...this.user
+      }).subscribe(({data}) => {
+      console.log('got data',  <User>data );
+      this.store.dispatch(new SignUpSuccessful(<User>data));
+    }, (error) => {
+      console.log('there was an error', error);
     });
 
   }

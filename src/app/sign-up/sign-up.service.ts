@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
-import { SignUpModule } from './sign-up.module';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
 import { User } from '../models/user';
+import { gql, Apollo } from "apollo-angular-boost";
+import { AddUserGqlService } from './add-user-gql.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignUpService {
 
-  constructor(private http: HttpClient) {
+  constructor(private addUserGQL: AddUserGqlService) {
    }
 
    signUpUser(user: User) {
-     return this.http.post('/api/user', user);
+    this.addUserGQL.mutate({
+      ...user
+    });
    }
 }

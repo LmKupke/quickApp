@@ -13,14 +13,17 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { AppState } from './store/app.state';
 import { ApolloBoostModule, ApolloBoost } from "apollo-angular-boost";
+import { TestComponent } from './test/test.component';
 
 const appRoutes: Routes = [
-  {path: 'sign-up', loadChildren: './sign-up/sign-up.module#SignUpModule'}
+  {path: 'sign-up', loadChildren: './sign-up/sign-up.module#SignUpModule'},
+  { path: '', component: TestComponent}
 ];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,

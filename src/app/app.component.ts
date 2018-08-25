@@ -18,23 +18,5 @@ export class AppComponent {
     this.store.dispatch(new Navigate(['/sign-up']));
   }
 
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    this.apollo.watchQuery({
-      query: gql`
-        {
-          users {
-            id
-            name
-            username
-            location
-            age
-          }
-        }
-      `
-    }).valueChanges.subscribe(result => {
-      console.log(result.data);
-    });
-  }
+
 }

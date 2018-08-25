@@ -24,6 +24,9 @@ exports.userType = new GraphQLObjectType({
       },
       age: {
         type: GraphQLInt
+      },
+      password: {
+        type: new GraphQLNonNull(GraphQLString)
       }
     }
   }

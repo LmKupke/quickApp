@@ -25,7 +25,7 @@ export class AppState {
   SignUpSuccessful(context: StateContext<AppStateModel>, action: SignUpSuccessful) {
     const state = context.getState();
     context.setState({
-      user: action.user
+      user: {...action.user }
     });
   }
 
