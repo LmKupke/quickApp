@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { SignUpService } from '../sign-up.service';
 import { User } from '../../models/user';
 import { SignUpSuccessful } from '../store/sign-up.action';
 import { Store } from '@ngxs/store';
 import { AddUserGqlService } from '../add-user-gql.service';
-import { gql, Apollo } from 'apollo-angular-boost';
+
 
 @Component({
   selector: 'app-sign-up-form',
