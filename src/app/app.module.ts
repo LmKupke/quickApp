@@ -12,6 +12,7 @@ import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { AppState } from './store/app.state';
+import { ApolloBoostModule, ApolloBoost } from "apollo-angular-boost";
 
 const appRoutes: Routes = [
   {path: 'sign-up', loadChildren: './sign-up/sign-up.module#SignUpModule'}
@@ -32,9 +33,16 @@ const appRoutes: Routes = [
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsFormPluginModule.forRoot(),
     NgxsRouterPluginModule.forRoot(),
-
+    ApolloBoostModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(boost: ApolloBoost) {
+    boost.create({
+      uri: "http://localhost:3000/graphql"
+    });
+  }
+
+}
