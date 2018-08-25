@@ -14,7 +14,7 @@ import { AddUserGqlService } from '../add-user-gql.service';
 export class SignUpFormComponent implements OnInit {
   userForm: FormGroup;
   user: User;
-  uniqueUsername: string = '';
+  uniqueUsername = '';
   private formSubmitAttempt: boolean;
 
   constructor(private formBuilder: FormBuilder, private addUserGQL: AddUserGqlService, private store: Store) {
