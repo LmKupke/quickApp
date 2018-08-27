@@ -6,7 +6,6 @@ import { map } from 'rxjs/operators';
 import { NewUserAdded } from '../newUser.gql';
 import { User } from '../models/user';
 import gql from 'graphql-tag';
-import { ApolloQueryResult } from 'apollo-client';
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
@@ -58,7 +57,7 @@ export class TestComponent implements OnInit {
         }
         const newUser = subscriptionData.data.userCreated;
 
-        return this.users = [...previous.users, newUser]
+        return this.users = [...previous.users, newUser];
       }
     });
    }

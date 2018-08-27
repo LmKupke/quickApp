@@ -1,10 +1,6 @@
 const express = require('express');
 import * as http  from 'http';
-import { bodyParser } from 'body-parser';
 import { ApolloServer } from 'apollo-server-express';
-import { execute, subscribe } from 'graphql';
-import { PubSub } from 'graphql-subscriptions';
-import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { schema, resolvers } from './graphql/index';
 import { models } from './models'
 
@@ -16,7 +12,6 @@ mongoose.connect(`mongodb://${DB_USER}:${DB_PASSWORD}@ds018268.mlab.com:18268/ch
 const cors = require("cors");
 const app = express();
 
-const pubsub = new PubSub();
 
 const server = new ApolloServer({
   typeDefs: schema,
