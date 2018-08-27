@@ -12,8 +12,14 @@ import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { AppState } from './store/app.state';
-import { ApolloBoostModule, ApolloBoost } from "apollo-angular-boost";
 import { TestComponent } from './test/test.component';
+import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloModule, Apollo } from 'apollo-angular';
+import { WebSocketLink } from 'apollo-link-ws';
+import { getMainDefinition } from 'apollo-utilities';
+import { split } from 'apollo-link';
+
 
 const appRoutes: Routes = [
   {path: 'sign-up', loadChildren: './sign-up/sign-up.module#SignUpModule'},
@@ -36,16 +42,37 @@ const appRoutes: Routes = [
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsFormPluginModule.forRoot(),
     NgxsRouterPluginModule.forRoot(),
-    ApolloBoostModule
+    HttpLinkModule,
+    ApolloModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(boost: ApolloBoost) {
-    boost.create({
-      uri: "http://localhost:3000/graphql"
-    });
-  }
+  constructor(apollo: Apollo, httpLink: HttpLink) {
 
+    const http = httpLink.create({ uri: 'http://localhost:3000/graphql' });
+
+    const ws = new WebSocketLink({
+      uri: `ws://localhost:3000/graphql`,
+      options: {
+        reconnect: true
+      }
+    });
+
+  const link = split(
+    // split based on operation type
+    ({ query }) => {
+      let definition = getMainDefinition(query);
+      return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+    },
+    ws,
+    http,
+  );
+
+  apollo.create({
+    link,
+    cache: new InMemoryCache()
+  });
+}
 }

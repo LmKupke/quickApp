@@ -1,19 +1,15 @@
 var mongoose = require('mongoose');
 var Schema  = mongoose.Schema;
-var User = require('./User').userSchema;
+import { userSchema } from "./User";
 
 const messageSchema = new Schema({
   message: {type: String, required: true},
-  user: { type: User, required: true}
+  user: { type: userSchema, required: true}
   }, {
     timestamps: { createdAt: 'created_at'}
   }
 );
 
 
-var Message = mongoose.model('message', messageSchema);
+export const messageModel = mongoose.model('message', messageSchema);
 
-
-
-
-export default Message;

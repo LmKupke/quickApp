@@ -5,7 +5,6 @@ import { SignUpRoutingModule } from './sign-up-routing/sign-up-routing.module';
 import { MaterialModule } from '../material/material.module';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SignUpService } from './sign-up.service';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
