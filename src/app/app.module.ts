@@ -22,8 +22,7 @@ import { split } from 'apollo-link';
 
 
 const appRoutes: Routes = [
-  {path: 'sign-up', loadChildren: './sign-up/sign-up.module#SignUpModule'},
-  { path: '', component: TestComponent}
+  {path: 'sign-up', loadChildren: './sign-up/sign-up.module#SignUpModule'}
 ];
 
 @NgModule({
