@@ -19,23 +19,34 @@ import { ApolloModule, Apollo } from 'apollo-angular';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 import { split } from 'apollo-link';
+import { ChatContainerComponent } from './chat/chat-container/chat-container.component';
+import { ChatMessageBoxComponent } from './chat/chat-message-box/chat-message-box.component';
+import { ChatMessagesComponent } from './chat/chat-messages/chat-messages.component';
+import { ChatInputComponent } from './chat/chat-input/chat-input.component';
+import { LoginModule } from './login/login/login.module';
 
 
 const appRoutes: Routes = [
-  {path: 'sign-up', loadChildren: './sign-up/sign-up.module#SignUpModule'},
-  {path: '' , component: TestComponent}
+  { path: 'sign-up', loadChildren: './sign-up/sign-up.module#SignUpModule'},
+  { path: 'sign-in', loadChildren: './login/login/login.module#LoginModule'},
+  { path: '' , component: TestComponent }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    TestComponent
+    TestComponent,
+    ChatContainerComponent,
+    ChatMessageBoxComponent,
+    ChatMessagesComponent,
+    ChatInputComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     MaterialModule,
     SignUpModule,
+    LoginModule,
     RouterModule.forRoot(appRoutes, { enableTracing: true }),
     BrowserAnimationsModule,
     NgxsModule.forRoot([AppState]),

@@ -3,7 +3,8 @@ require('babel-register')({
   presets: [ 'env' ],
   "plugins": [
     "transform-runtime",
-    "transform-async-to-generator"
+    "transform-async-to-generator",
+    "transform-object-rest-spread"
   ]
 })
 

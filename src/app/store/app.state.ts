@@ -6,6 +6,7 @@ import { User } from '../models/user';
 
 export interface AppStateModel {
   user: User;
+  loggedIn: boolean;
 }
 
 @State<AppStateModel>({
@@ -17,7 +18,9 @@ export interface AppStateModel {
       password: '',
       location: '',
       age: -1,
-    }
+    },
+    loggedIn: false,
+
   }
 })
 export class AppState {
@@ -25,7 +28,8 @@ export class AppState {
   SignUpSuccessful(context: StateContext<AppStateModel>, action: SignUpSuccessful) {
     const state = context.getState();
     context.setState({
-      user: {...action.user }
+      user: {...action.user },
+      loggedIn: true
     });
   }
 

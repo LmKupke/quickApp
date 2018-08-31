@@ -1,0 +1,20 @@
+<div class="example-container">
+  <form [formGroup]="loginForm" novalidate ngxsForm="login.loginForm" (ngSubmit)="onSubmit()">
+
+   <mat-form-field>
+     <input matInput placeholder="Username" formControlName="username">
+     <mat-error *ngIf="isFieldInvalid('username')">
+       Please fill in a username
+     </mat-error>
+   </mat-form-field>
+
+   <mat-form-field>
+     <input matInput placeholder="Password" formControlName="password">
+     <mat-error *ngIf="isFieldInvalid('password')">
+       Please fill in a password
+     </mat-error>
+   </mat-form-field>
+
+   <button mat-button (click)="onSubmit()" [disabled]="loginForm.invalid">Submit</button>
+   </form>
+</div>

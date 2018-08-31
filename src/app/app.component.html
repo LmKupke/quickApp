@@ -1,8 +1,8 @@
 <mat-toolbar>
     <span routerLink="">Angular Chat App</span>
-    <button mat-button (click)="goToSignUp()">Sign Up</button>
-    <button mat-button routerLink="/sign-up">Sign In</button>
-
+    <button mat-button (click)="goToSignUp()" *ngIf="!loggedIn">Sign Up</button>
+    <button mat-button (click)="goToSignIn()" *ngIf="!loggedIn">Sign In</button>
+    <button mat-button *ngIf="loggedIn">Log Out</button>
 </mat-toolbar>
 
 <router-outlet></router-outlet>

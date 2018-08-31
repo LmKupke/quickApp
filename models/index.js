@@ -1,8 +1,8 @@
-import { userModel } from "./User";
-import { messageModel } from "./Message";
+import { userModel as user } from "./User";
+import { messageModel as message } from "./Message";
 
 
-export const models = {
-  messageModel,
-  userModel
+export default {
+  message,
+  user
 };
