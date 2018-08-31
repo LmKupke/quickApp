@@ -2,7 +2,7 @@ import { PubSub, AuthenticationError, UserInputError, ForbiddenError } from "apo
 import { GraphQLScalarType } from 'graphql';
 import { combineResolvers } from 'graphql-resolvers';
 
-import { isAuthenticated } from './authorization';
+import { isAuthenticated, isMessageOwner } from './authorization';
 const pubSub = new PubSub();
 const MESSAGE_ADDED = 'MESSAGE_ADDED';
 
@@ -10,7 +10,7 @@ const MESSAGE_ADDED = 'MESSAGE_ADDED';
 export default {
   Query: {
     messages: async (parent, args, {models}) => {
-      let messagesFound = await models.message.find().populate('user');
+      let messagesFound = await models.message.find().sort([['created_at', 'ascending']]).populate('user');
       if (!messagesFound) {
         throw new Error('Error');
       }
@@ -44,6 +44,12 @@ export default {
 
         pubSub.publish(MESSAGE_ADDED, { messageCreated:  authMessage })
         return authMessage;
+    }),
+  deleteMessage: combineResolvers(
+    isAuthenticated,
+    isMessageOwner,
+    async (parent, {id}, {models}) => {
+      return await models.message.deleteOne({id});
     })
   },
   Subscription: {
@@ -58,7 +64,7 @@ export default {
       return new Date(value);
     },
     serialize(value) {
-      return value.getTime();
+      return value;
     },
     parseLiteral(ast) {
       if (ast.kind === Kind.Int) {
