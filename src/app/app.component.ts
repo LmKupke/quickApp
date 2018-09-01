@@ -17,14 +17,14 @@ export class AppComponent {
   loggedIn = false;
   loggedInSubscription: Subscription;
   constructor(private store: Store, private apollo: Apollo, private actions: Actions) {
-
-
+    this.loggedIn$ = this.store.select(state => state.appState.loggedIn);
+    this.loggedIn$.subscribe((loggedIn) => {
+      this.loggedIn = loggedIn;
+    });
   }
 
   ngOnInit(): void {
-    this.actions.pipe(ofActionDispatched(SignUpSuccessful)).subscribe(() => {
-      this.loggedIn = true;
-    });
+
   }
 
   goToSignUp() {

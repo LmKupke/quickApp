@@ -1,11 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { User } from '../../models/user';
+import { User, UserAuth } from '../../models/user';
 import { SignUpSuccessful } from '../store/sign-up.action';
 import { Store } from '@ngxs/store';
-import { AddUserGqlService } from '../add-user-gql.service';
 import { Navigate } from '@ngxs/router-plugin';
+import { Apollo } from 'apollo-angular';
+import gql from 'graphql-tag';
+import { share } from 'rxjs/operators';
 
+
+const addUserMutation =  gql`
+mutation signUp($name: String!, $username: String!, $password: String!, $location: String, $age: Int) {
+  signUp(name: $name, username: $username, password: $password, location: $location, age: $age) {
+    user {
+      username
+   	  location
+    	age
+    }
+    token
+  }
+}
+`;
 
 @Component({
   selector: 'app-sign-up-form',
@@ -18,7 +33,7 @@ export class SignUpFormComponent implements OnInit {
   uniqueUsername = '';
   private formSubmitAttempt: boolean;
 
-  constructor(private formBuilder: FormBuilder, private addUserGQL: AddUserGqlService, private store: Store) {
+  constructor(private formBuilder: FormBuilder, private apollo: Apollo, private store: Store) {
     this.userForm = this.formBuilder.group({
       name: new FormControl('', [ Validators.required]),
       username: new FormControl('', [ Validators.required]),
@@ -44,13 +59,22 @@ export class SignUpFormComponent implements OnInit {
     };
     this.formSubmitAttempt = true;
 
-    this.addUserGQL.mutate({
-        ...this.user
-      }).subscribe(({data}) => {
-      console.log('got data',  <User>data );
-      this.store.dispatch(new SignUpSuccessful(<User>data));
-      this.userForm.reset();
-      this.store.dispatch(new Navigate(['/']));
+    this.apollo.mutate({
+     mutation: addUserMutation,
+     variables: {
+      username: this.user.username,
+      name: this.user.name,
+      password: this.user.password,
+      location: this.user.location,
+      age: <number>this.user.age
+     }
+    }).subscribe(({data}) => {
+      console.log('got data', data );
+      sessionStorage.setItem('token', data.signUp.token)
+      this.store.dispatch(new SignUpSuccessful(<UserAuth>data.signUp.user));
+
+       this.userForm.reset();
+       this.store.dispatch(new Navigate(['/']));
     }, (error) => {
       console.log('there was an error', error);
     });

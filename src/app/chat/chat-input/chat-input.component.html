@@ -1,3 +1,7 @@
-<p>
-  chat-input works!
-</p>
+<form class="chat-input-form"  [formGroup]="messageForm" novalidate ngxsForm="message.messageForm" (ngSubmit)="onSubmit()" >
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Write a message"  formControlName="message" >
+  </mat-form-field>
+  <button mat-button type="submit">Submit</button>
+
+</form>

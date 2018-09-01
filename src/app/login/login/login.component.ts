@@ -31,26 +31,33 @@ export class LoginComponent implements OnInit {
       ...this.loginForm.value
     };
     this.formSubmitAttempt = true;
-    this.userLoginQuery = this.apollo.watchQuery({
-      query: gql`
-      query user($username: String!, $password: String!) {
-        user(username: $username, password: $password) {
-            username
-            password
-            name
-            location
-            age
+    this.apollo.mutate({
+      mutation: gql`
+      mutation signIn($username: String!, $password: String!) {
+        signIn(username: $username, password: $password) {
+            user {
+              username
+              location
+              age
+            }
+            token
           }
       }
       `,
       variables: {
         username: query.username,
         password: query.password
-      }
-    });
+      },
+      fetchPolicy: 'no-cache'
+    }).subscribe(({data}) => {
+      if (sessionStorage.getItem('token')) {
+        sessionStorage.removeItem('token');
+        sessionStorage.setItem('token', data.signIn.token);
 
-    this.userLoginQuery.valueChanges.subscribe(({data}) => {
-      this.store.dispatch(new SignUpSuccessful(data.user));
+      }
+      sessionStorage.setItem('token', data.signIn.token);
+      this.store.dispatch(new SignUpSuccessful(data.signIn.user));
+      this.loginForm.reset();
       this.store.dispatch(new Navigate(['/']));
     });
 

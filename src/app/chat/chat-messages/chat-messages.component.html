@@ -1,3 +1,11 @@
-<p>
-  chat-messages works!
-</p>
+<mat-card class="example-card">
+    <mat-card-header>
+        {{message.user.username}}
+        {{message.created_at | date:'medium'}}
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        {{message.message}}
+      </p>
+    </mat-card-content>
+  </mat-card>

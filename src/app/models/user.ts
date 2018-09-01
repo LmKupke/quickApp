@@ -5,3 +5,9 @@ export interface User {
   location: String;
   age: number;
 }
+
+export interface UserAuth {
+  username: String;
+  location: String;
+  age: number;
+}

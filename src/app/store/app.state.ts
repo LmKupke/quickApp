@@ -1,11 +1,11 @@
 import { State, Action, StateContext } from '@ngxs/store';
 import { SignUpSuccessful } from '../sign-up/store/sign-up.action';
-import { User } from '../models/user';
+import { User, UserAuth } from '../models/user';
 ​
 
 
 export interface AppStateModel {
-  user: User;
+  user: UserAuth;
   loggedIn: boolean;
 }
 
@@ -13,9 +13,7 @@ export interface AppStateModel {
   name: 'appState',
   defaults: {
     user: {
-      name: '',
       username: '',
-      password: '',
       location: '',
       age: -1,
     },

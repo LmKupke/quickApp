@@ -18,18 +18,22 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloModule, Apollo } from 'apollo-angular';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
-import { split } from 'apollo-link';
+import { split, ApolloLink, from } from 'apollo-link';
 import { ChatContainerComponent } from './chat/chat-container/chat-container.component';
 import { ChatMessageBoxComponent } from './chat/chat-message-box/chat-message-box.component';
 import { ChatMessagesComponent } from './chat/chat-messages/chat-messages.component';
 import { ChatInputComponent } from './chat/chat-input/chat-input.component';
 import { LoginModule } from './login/login/login.module';
-
+import { NgxsStoragePluginModule, StorageOption } from '@ngxs/storage-plugin';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { setContext } from 'apollo-link-context';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './token.interceptor';
 
 const appRoutes: Routes = [
   { path: 'sign-up', loadChildren: './sign-up/sign-up.module#SignUpModule'},
   { path: 'sign-in', loadChildren: './login/login/login.module#LoginModule'},
-  { path: '' , component: TestComponent }
+  { path: '', component: ChatContainerComponent}
 ];
 
 @NgModule({
@@ -46,17 +50,26 @@ const appRoutes: Routes = [
     HttpClientModule,
     MaterialModule,
     SignUpModule,
+    ReactiveFormsModule,
+    FormsModule,
     LoginModule,
-    RouterModule.forRoot(appRoutes, { enableTracing: true }),
+    RouterModule.forRoot(appRoutes),
     BrowserAnimationsModule,
     NgxsModule.forRoot([AppState]),
-    NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsFormPluginModule.forRoot(),
     NgxsRouterPluginModule.forRoot(),
+    NgxsStoragePluginModule.forRoot({
+      storage: StorageOption.SessionStorage
+    }),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
     HttpLinkModule,
     ApolloModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
@@ -74,7 +87,7 @@ export class AppModule {
   const link = split(
     // split based on operation type
     ({ query }) => {
-      let definition = getMainDefinition(query);
+      const definition = getMainDefinition(query);
       return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
     },
     ws,

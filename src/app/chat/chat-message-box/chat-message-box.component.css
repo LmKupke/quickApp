@@ -1,0 +1,13 @@
+.chat-message-box {
+  border: 1px solid black;
+  height: 90%;
+  margin: 3% 1% 0% 1%;
+}
+
+.my-message {
+  margin: 5px 5px 0px 0px;
+  border: 1px solid blue;
+  float: right;
+  background-color: blue;
+  color: white;
+}

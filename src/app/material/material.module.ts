@@ -6,6 +6,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import {MatButtonModule} from '@angular/material/button';
     MatSelectModule,
     MatMenuModule,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCardModule
   ],
   exports: [
     MatFormFieldModule,
@@ -23,7 +25,8 @@ import {MatButtonModule} from '@angular/material/button';
     MatSelectModule,
     MatMenuModule,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCardModule
   ],
   declarations: []
 })

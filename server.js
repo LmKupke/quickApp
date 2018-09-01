@@ -13,7 +13,7 @@ mongoose.connect(`mongodb://${DB_USER}:${DB_PASSWORD}@ds018268.mlab.com:18268/ch
 const cors = require("cors");
 const app = express();
 import jwt from 'jsonwebtoken';
-import { formatError } from 'graphql';
+app.use('*', cors());
 
 const getMe = async req => {
   const token = req.headers['x-token'];
@@ -75,7 +75,6 @@ server.applyMiddleware({ app, path: '/graphql' });
 const httpServer = http.createServer(app);
 server.installSubscriptionHandlers(httpServer);
 
-app.use('*', cors());
 
 const port = process.env.PORT || '3000';
 
