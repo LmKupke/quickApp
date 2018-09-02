@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Store } from '@ngxs/store';
 
 @Component({
   selector: 'app-chat-messages',
@@ -7,7 +8,11 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ChatMessagesComponent implements OnInit {
   @Input() message: any;
-  constructor() { }
+  myUsername: string;
+  constructor(private store: Store) {
+    this.store.select(state => state.appState.user.username).subscribe(name => this.myUsername = name);
+
+   }
 
   ngOnInit() {
   }

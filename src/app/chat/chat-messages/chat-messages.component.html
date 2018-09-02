@@ -1,11 +1,12 @@
-<mat-card class="example-card">
-    <mat-card-header>
-        {{message.user.username}}
-        {{message.created_at | date:'medium'}}
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        {{message.message}}
-      </p>
-    </mat-card-content>
+<div class="message" [ngStyle]="{'float': message.user.username === myUsername ? 'right' : 'left'}">
+  <mat-card class="message-content">
+      <mat-card-content>
+        <p>
+          {{message.message}}
+        </p>
+      </mat-card-content>
   </mat-card>
+  {{message.user.username}} - {{message.created_at | date:'medium'}}
+
+</div>
+

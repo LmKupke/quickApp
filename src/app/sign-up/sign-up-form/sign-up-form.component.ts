@@ -70,7 +70,7 @@ export class SignUpFormComponent implements OnInit {
      }
     }).subscribe(({data}) => {
       console.log('got data', data );
-      sessionStorage.setItem('token', data.signUp.token)
+      sessionStorage.setItem('token', data.signUp.token);
       this.store.dispatch(new SignUpSuccessful(<UserAuth>data.signUp.user));
 
        this.userForm.reset();

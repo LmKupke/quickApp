@@ -5,7 +5,7 @@ import { combineResolvers } from 'graphql-resolvers';
 import { isAuthenticated, isMessageOwner } from './authorization';
 const pubSub = new PubSub();
 const MESSAGE_ADDED = 'MESSAGE_ADDED';
-
+const USER_TYPING = 'USER_TYPING';
 
 export default {
   Query: {
@@ -45,16 +45,30 @@ export default {
         pubSub.publish(MESSAGE_ADDED, { messageCreated:  authMessage })
         return authMessage;
     }),
-  deleteMessage: combineResolvers(
-    isAuthenticated,
-    isMessageOwner,
-    async (parent, {id}, {models}) => {
-      return await models.message.deleteOne({id});
-    })
+    deleteMessage: combineResolvers(
+      isAuthenticated,
+      isMessageOwner,
+      async (parent, {id}, {models}) => {
+        return await models.message.deleteOne({id});
+      }
+    ),
+    typingMessage: combineResolvers(
+      isAuthenticated,
+      async(parent, args, {models, me}) => {
+        const typingStatus = {
+          status: args.status,
+          user: me.username
+        }
+        pubSub.publish(USER_TYPING, { messageTyping: typingStatus })
+      }
+    )
   },
   Subscription: {
     messageCreated: {
       subscribe: () => pubSub.asyncIterator([MESSAGE_ADDED]),
+    },
+    messageTyping: {
+      subscribe: () => pubSub.asyncIterator([USER_TYPING])
     }
   },
   Date: new GraphQLScalarType({

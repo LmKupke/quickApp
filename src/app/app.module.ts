@@ -29,6 +29,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { setContext } from 'apollo-link-context';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './token.interceptor';
+import { ActiveTypingComponent } from './chat/active-typing/active-typing.component';
 
 const appRoutes: Routes = [
   { path: 'sign-up', loadChildren: './sign-up/sign-up.module#SignUpModule'},
@@ -43,7 +44,8 @@ const appRoutes: Routes = [
     ChatContainerComponent,
     ChatMessageBoxComponent,
     ChatMessagesComponent,
-    ChatInputComponent
+    ChatInputComponent,
+    ActiveTypingComponent
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,5 @@
 <div class="chat-message-box">
   <app-chat-messages *ngFor="let message of messages" [message]="message"></app-chat-messages>
+  <app-active-typing *ngFor="let user of activeTyping" [username]="user" class="active-typing"></app-active-typing>
+
 </div>

@@ -34,6 +34,14 @@ subscription {
   }
 }
 `;
+
+
+const userTyping = gql`
+mutation typingMessage($status: Boolean!) {
+   typingMessage(status: $status)
+}
+`;
+
 @Component({
   selector: 'app-chat-message-box',
   templateUrl: './chat-message-box.component.html',
@@ -44,6 +52,7 @@ export class ChatMessageBoxComponent implements OnInit {
   messagesObservable: QueryRef<any>;
   messagesSubscription: Subscription;
   messages: any[];
+  activeTyping: string[] = [];
   constructor(private apollo: Apollo) { }
 
   ngOnInit() {
@@ -64,6 +73,23 @@ export class ChatMessageBoxComponent implements OnInit {
         const newMessage = subscriptionData.data.messageCreated;
 
         return this.messages = [...this.messages, newMessage];
+      }
+    });
+
+    this.apollo.subscribe({
+      query: gql `
+      subscription {
+        messageTyping {
+          status
+          user
+        }
+      }
+      `,
+    }).subscribe(({data}) => {
+      if (!data.messageTyping.status) {
+        this.activeTyping = this.activeTyping.filter(name => name !== data.messageTyping.user);
+      } else {
+        this.activeTyping.push(data.messageTyping.user);
       }
     });
   }
