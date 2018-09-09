@@ -9,7 +9,12 @@ const mongoose = require('mongoose');
 require('dotenv').config()
 const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASS;
-mongoose.connect(`mongodb://${DB_USER}:${DB_PASSWORD}@ds018268.mlab.com:18268/chat-app`)
+mongoose.connect("mongodb://<dbuser>:<dbpassword>@ds018268.mlab.com:18268/chat-app", {
+  auth: {
+    user: DB_USER,
+    password: DB_PASSWORD
+  }
+, useNewUrlParser: true})
 const cors = require("cors");
 const app = express();
 import jwt from 'jsonwebtoken';
