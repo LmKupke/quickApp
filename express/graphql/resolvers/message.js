@@ -1,4 +1,4 @@
-import { PubSub, AuthenticationError, UserInputError, ForbiddenError } from "apollo-server-express";
+import { PubSub, AuthenticationError, UserInputError, ForbiddenError } from "apollo-server-expresS";
 import { GraphQLScalarType } from 'graphql';
 import { combineResolvers } from 'graphql-resolvers';
 
